@@ -9,6 +9,7 @@ remaining_guesses = 5
 get '/' do
   message = ''
   guess = params['guess'].to_i
+  cheat_enabled = params['cheat']
 
   if guess == secret_number
     message = "Correct, the secret number is #{secret_number}!"
@@ -26,6 +27,10 @@ get '/' do
       message = guess > secret_number ? 'Too high!' : 'Too low!'
       color = (secret_number - guess).abs < 30 ? 'lightpink' : 'red'
     end
+  end
+
+  if cheat_enabled == 'true'
+    message += " Cheat enabled! Secret number is #{secret_number}"
   end
 
   erb :index, locals: {
